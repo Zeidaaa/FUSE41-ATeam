@@ -3,21 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class InputManager : MonoBehaviour
+public class GameSceneInputManager : MonoBehaviour
 {
     private InputActions m_inputActions;
 
     private void Awake()
     {
+        DontDestroyOnLoad(gameObject);
+
+        // 各ボタンのイベントで呼ぶ関数を設定
         m_inputActions = new InputActions();
-        
         m_inputActions.GameScene.Up.started    += OnEnterUp;
         m_inputActions.GameScene.Down.started  += OnEnterDown;
         m_inputActions.GameScene.Right.started += OnEnterRight;
         m_inputActions.GameScene.Left.started  += OnEnterLeft;
-
-        m_inputActions.GameScene.A.started  += OnEnterA;
-        m_inputActions.GameScene.A.canceled += OnExitA;
+        m_inputActions.GameScene.A.started     += OnEnterA;
+        m_inputActions.GameScene.A.canceled    += OnExitA;
 
         m_inputActions.Enable();
     }
@@ -26,7 +27,7 @@ public class InputManager : MonoBehaviour
     {
         m_inputActions?.Dispose();
     }
-
+    
     private void OnEnterUp(InputAction.CallbackContext context)
     {
         // 北を向く
