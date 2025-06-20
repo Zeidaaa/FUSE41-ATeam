@@ -4,13 +4,26 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
+[System.Serializable]
+public struct S_BSpeedChangeScore
+{
+    public float ChangeSpeed;
+    public int ChangeScore;
+}
+
 public class GameManager : MonoBehaviour
 {
+    // フェードインアウトの停止時間
     [SerializeField]
     private float m_changeSceneSec;
-    [SerializeField]
-    private float m_gameStartSec;
+    
+    // スコア
+    private int m_score;
+    public void AddScore() { m_score++; }
+    public void ResetScore() { m_score = 0; }
+    public int GetScore() {  return m_score; }
 
+    // コントローラーの制御フラグ
     private bool m_isControl;
     public void SetIsControl(bool Is) { m_isControl = Is; }
     public bool GetIsControl() { return m_isControl; }
@@ -26,6 +39,7 @@ public class GameManager : MonoBehaviour
         // Scene間を跨げるようDDOLに設定
         DontDestroyOnLoad(gameObject);
 
+        ResetScore();
         SetIsControl(true);
     }
 
@@ -60,6 +74,8 @@ public class GameManager : MonoBehaviour
         {
             // ゲームスタートUIを再生
 
+            // スコアをリセット
+            ResetScore();
         }
     }
 }
