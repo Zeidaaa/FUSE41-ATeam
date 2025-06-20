@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 
 public class GameSceneInputManager : MonoBehaviour
 {
+    [SerializeField]
+    private GameManager m_gameManager;
     private InputActions m_inputActions;
 
     private void Awake()
@@ -28,6 +30,7 @@ public class GameSceneInputManager : MonoBehaviour
     
     private void OnEnterUp(InputAction.CallbackContext context)
     {
+        if (!m_gameManager.GetIsControl()) return;
         // –k‚ğŒü‚­
         // ‚­‚Ü‚ğ‰ñ“]
         // ‚­‚Ü‚ÌŒü‚«ó‘Ô‚ğ–k‚É
@@ -36,6 +39,7 @@ public class GameSceneInputManager : MonoBehaviour
 
     private void OnEnterDown(InputAction.CallbackContext context)
     {
+        if (!m_gameManager.GetIsControl()) return;
         // “ì‚ğŒü‚­
         // ‚­‚Ü‚ğ‰ñ“]
         // ‚­‚Ü‚ÌŒü‚«ó‘Ô‚ğ“ì‚É
@@ -44,6 +48,7 @@ public class GameSceneInputManager : MonoBehaviour
 
     private void OnEnterRight(InputAction.CallbackContext context)
     {
+        if (!m_gameManager.GetIsControl()) return;
         // ‰E‚ğŒü‚­
         // ‚­‚Ü‚ÌŒü‚«ó‘Ô‚ğ“Œ‚É
         Debug.Log($"‰E");
@@ -51,6 +56,7 @@ public class GameSceneInputManager : MonoBehaviour
 
     private void OnEnterLeft(InputAction.CallbackContext context)
     {
+        if (!m_gameManager.GetIsControl()) return;
         // ¶‚ğŒü‚­
         // ‚­‚Ü‚ÌŒü‚«ó‘Ô‚ğ¼‚É
         Debug.Log($"¶");
@@ -58,6 +64,7 @@ public class GameSceneInputManager : MonoBehaviour
 
     private void OnEnterA(InputAction.CallbackContext context)
     {
+        if (!m_gameManager.GetIsControl()) return;
         // bearing‚ğ‚Á‚½
         // GetBearing
         Debug.Log($"A‰Ÿ‚µ‚½");
@@ -65,6 +72,7 @@ public class GameSceneInputManager : MonoBehaviour
 
     private void OnExitA(InputAction.CallbackContext context)
     {
+        if (!m_gameManager.GetIsControl()) return;
         // bearing‚ğ•ú‚µ‚½
         // CheckBearingDirection
         Debug.Log($"A•ú‚µ‚½");

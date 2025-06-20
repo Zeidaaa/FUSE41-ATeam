@@ -5,9 +5,9 @@ using UnityEngine.InputSystem;
 
 public class TitleSceneInputManager : MonoBehaviour
 {
-    [SerializeField] private GameManager m_gameManager;
+    [SerializeField] 
+    private GameManager m_gameManager;
     private InputActions m_inputActions;
-    private GameManager.S_SceneNames m_sceneNames;
 
     private void Awake()
     {
@@ -25,7 +25,8 @@ public class TitleSceneInputManager : MonoBehaviour
 
     private void OnGameStart(InputAction.CallbackContext context)
     {
+        if (!m_gameManager.GetIsControl()) return;
         // à–¾ƒV[ƒ“‚Ö‘JˆÚ
-        StartCoroutine(m_gameManager.OnChangeScene(m_sceneNames.GetExplanation()));
+        StartCoroutine(m_gameManager.OnChangeScene(m_gameManager.GetGame()));
     }
 }
