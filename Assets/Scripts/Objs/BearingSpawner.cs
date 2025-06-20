@@ -8,11 +8,15 @@ public class BearingSpawner : MonoBehaviour
     private GameManager m_gameManager;
 
     [SerializeField]
+    private GameObject m_bearingPre;
+
     private float m_spawnTime;
     private float m_spawnCounter;
+
     [SerializeField]
     private float m_defaultBSpeed;
     private float m_crrentBSpeed;
+    public float GetCrrentBSpeed() {  return m_crrentBSpeed; }
     
     [SerializeField]
     private S_BSpeedChangeScore[] m_bSpeedChangeScoreList;
@@ -22,12 +26,26 @@ public class BearingSpawner : MonoBehaviour
         var gameManagerObj = GameObject.Find("GameManager");
         m_gameManager = gameManagerObj.GetComponent<GameManager>();
 
+        m_spawnTime = Random.Range(2, 7);
+        m_spawnCounter = 0;
+        
         m_crrentBSpeed = m_defaultBSpeed;
     }
 
     void Update()
     {
-        
+        // ランダムな時間ごとにbearingを生成
+        m_spawnCounter += Time.deltaTime;
+        if (m_spawnCounter >= m_spawnTime)
+        {
+            // 生成
+            Vector3 spawnerPos = GetComponent<Transform>().position;
+            Instantiate(m_bearingPre, spawnerPos, Quaternion.identity);
+            
+            // Timerリセット
+            m_spawnTime = Random.Range(2, 7);
+            m_spawnCounter = 0;
+        }
     }
 
     public void ChangeBearingSpeed()
