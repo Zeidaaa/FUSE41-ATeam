@@ -10,71 +10,64 @@ public class InputManager : MonoBehaviour
     private void Awake()
     {
         m_inputActions = new InputActions();
+        
+        m_inputActions.GameScene.Up.started    += OnEnterUp;
+        m_inputActions.GameScene.Down.started  += OnEnterDown;
+        m_inputActions.GameScene.Right.started += OnEnterRight;
+        m_inputActions.GameScene.Left.started  += OnEnterLeft;
 
-        // 十字キー上の押下時にOnUp()を呼ぶ
-        m_inputActions.GameScene.Up.started    += OnUp;
-        m_inputActions.GameScene.Down.started  += OnDown;
-        m_inputActions.GameScene.Right.started += OnRight;
-        m_inputActions.GameScene.Left.started  += OnLeft;
-
-        m_inputActions.GameScene.A.started  += OnSA;
-        m_inputActions.GameScene.A.canceled += OnCA;
+        m_inputActions.GameScene.A.started  += OnEnterA;
+        m_inputActions.GameScene.A.canceled += OnExitA;
 
         m_inputActions.Enable();
     }
 
     private void OnDestroy()
     {
-        // 自身でインスタンス化したActionクラスはIDisposableを実装しているので、
-        // 必ずDisposeする必要がある
         m_inputActions?.Dispose();
     }
 
-    private void OnUp(InputAction.CallbackContext context)
+    private void OnEnterUp(InputAction.CallbackContext context)
     {
         // 北を向く
         // くまを回転
-        // 向きフラグを北に
+        // くまの向き状態を北に
         Debug.Log($"上");
     }
 
-    private void OnDown(InputAction.CallbackContext context)
+    private void OnEnterDown(InputAction.CallbackContext context)
     {
-        // 北を向く
+        // 南を向く
         // くまを回転
-        // 向きフラグを南に
+        // くまの向き状態を南に
         Debug.Log($"下");
     }
 
-    private void OnRight(InputAction.CallbackContext context)
+    private void OnEnterRight(InputAction.CallbackContext context)
     {
-        // 北を向く
-        // くまを回転
-        // 向きフラグを東に
+        // 右を向く
+        // くまの向き状態を東に
         Debug.Log($"右");
     }
 
-    private void OnLeft(InputAction.CallbackContext context)
+    private void OnEnterLeft(InputAction.CallbackContext context)
     {
-        // 北を向く
-        // くまを回転
-        // 向きフラグを西に
+        // 左を向く
+        // くまの向き状態を西に
         Debug.Log($"左");
     }
 
-    private void OnSA(InputAction.CallbackContext context)
+    private void OnEnterA(InputAction.CallbackContext context)
     {
-        
-        // くまを回転
-        // 向きフラグを西に
+        // bearingを持った
+        // GetBearing
         Debug.Log($"A押した");
     }
 
-    private void OnCA(InputAction.CallbackContext context)
+    private void OnExitA(InputAction.CallbackContext context)
     {
-        
-        // くまを回転
-        // 向きフラグを西に
+        // bearingを放した
+        // CheckBearingDirection
         Debug.Log($"A放した");
     }
 }
