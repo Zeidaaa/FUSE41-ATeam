@@ -6,7 +6,18 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private float m_changeSceneSec;
+    // シーンネーム構造体
+    [HideInInspector]
+    public struct S_SceneNames
+    {
+        public string GetTitle() { return "TitleScene"; }
+        public string GetExplanation() { return "ExplanationScene"; }
+        public string GetGame() { return "GameScene"; }
+        public string GetResult() { return "ResultScene"; }
+    }
+    
+    [SerializeField]
+    private float m_changeSceneSec;
 
     private void Awake()
     {
@@ -29,7 +40,7 @@ public class GameManager : MonoBehaviour
     public IEnumerator OnChangeScene(string SceneName)
     {
         // フェードインUIを再生
-
+        Debug.Log("OK2");
 
         // 指定秒待つ
         yield return new WaitForSeconds(m_changeSceneSec);

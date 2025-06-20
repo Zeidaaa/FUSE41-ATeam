@@ -9,8 +9,6 @@ public class GameSceneInputManager : MonoBehaviour
 
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
-
         // 各ボタンのイベントで呼ぶ関数を設定
         m_inputActions = new InputActions();
         m_inputActions.GameScene.Up.started    += OnEnterUp;

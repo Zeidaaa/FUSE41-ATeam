@@ -7,11 +7,10 @@ public class TitleSceneInputManager : MonoBehaviour
 {
     [SerializeField] private GameManager m_gameManager;
     private InputActions m_inputActions;
+    private GameManager.S_SceneNames m_sceneNames;
 
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
-
         // 各ボタンのイベントで呼ぶ関数を設定
         m_inputActions = new InputActions();
         m_inputActions.TitleScene.A.started += OnGameStart;
@@ -27,6 +26,6 @@ public class TitleSceneInputManager : MonoBehaviour
     private void OnGameStart(InputAction.CallbackContext context)
     {
         // 説明シーンへ遷移
-        m_gameManager.OnChangeScene("ExplanationScene");
+        StartCoroutine(m_gameManager.OnChangeScene(m_sceneNames.GetExplanation()));
     }
 }
