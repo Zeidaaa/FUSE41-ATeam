@@ -1,10 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class GameSceneInputManager : MonoBehaviour
 {
+    [SerializeField]
+    private Bear m_bear;
+
+    private Bearing m_bearing;
+
     [SerializeField]
     private GameManager m_gameManager;
     private InputActions m_inputActions;
@@ -20,6 +26,8 @@ public class GameSceneInputManager : MonoBehaviour
         m_inputActions.GameScene.A.started     += OnEnterA;
         m_inputActions.GameScene.A.canceled    += OnExitA;
 
+        m_bearing = null;
+
         m_inputActions.Enable();
     }
 
@@ -32,8 +40,7 @@ public class GameSceneInputManager : MonoBehaviour
     {
         if (!m_gameManager.GetIsControl()) return;
         // –k‚ğŒü‚­
-        // ‚­‚Ü‚ğ‰ñ“]
-        // ‚­‚Ü‚ÌŒü‚«ó‘Ô‚ğ–k‚É
+        m_bear.SetDirection(E_Direction.Up);
         Debug.Log($"ã");
     }
 
@@ -41,8 +48,7 @@ public class GameSceneInputManager : MonoBehaviour
     {
         if (!m_gameManager.GetIsControl()) return;
         // “ì‚ğŒü‚­
-        // ‚­‚Ü‚ğ‰ñ“]
-        // ‚­‚Ü‚ÌŒü‚«ó‘Ô‚ğ“ì‚É
+        m_bear.SetDirection(E_Direction.Down);
         Debug.Log($"‰º");
     }
 
@@ -50,7 +56,7 @@ public class GameSceneInputManager : MonoBehaviour
     {
         if (!m_gameManager.GetIsControl()) return;
         // ‰E‚ğŒü‚­
-        // ‚­‚Ü‚ÌŒü‚«ó‘Ô‚ğ“Œ‚É
+        m_bear.SetDirection(E_Direction.Right);
         Debug.Log($"‰E");
     }
 
@@ -58,7 +64,7 @@ public class GameSceneInputManager : MonoBehaviour
     {
         if (!m_gameManager.GetIsControl()) return;
         // ¶‚ğŒü‚­
-        // ‚­‚Ü‚ÌŒü‚«ó‘Ô‚ğ¼‚É
+        m_bear.SetDirection(E_Direction.Left);
         Debug.Log($"¶");
     }
 
@@ -73,6 +79,13 @@ public class GameSceneInputManager : MonoBehaviour
     private void OnExitA(InputAction.CallbackContext context)
     {
         if (!m_gameManager.GetIsControl()) return;
+        // bearing‚ğ‚Á‚Ä‚¢‚È‚¯‚ê‚Îs‚í‚È‚¢
+        if (m_bearing == null) return;
+        // 
+        if (true)
+        {
+            m_gameManager.AddScore();
+        }
         // bearing‚ğ•ú‚µ‚½
         // CheckBearingDirection
         Debug.Log($"A•ú‚µ‚½");

@@ -11,6 +11,14 @@ public struct S_BSpeedChangeScore
     public int ChangeScore;
 }
 
+public enum E_Direction
+{
+    Up, 
+    Down,
+    Right,
+    Left,
+}
+
 public class GameManager : MonoBehaviour
 {
     // フェードインアウトの停止時間
