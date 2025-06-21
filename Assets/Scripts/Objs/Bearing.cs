@@ -17,7 +17,11 @@ public class Bearing : MonoBehaviour
     public int GetBearingNum() {  return m_bearingNum; }
 
     private Vector3 m_havePosition;
-    public void SetHavePosition(Vector3 HavePos) { m_havePosition = HavePos; }
+    public void SetHavePosition(Vector3 HavePos)
+    { 
+        m_havePosition = HavePos;
+        transform.position = m_havePosition;
+    }
 
     public enum E_BearingStatus
     {
@@ -30,23 +34,23 @@ public class Bearing : MonoBehaviour
     public void SetBearingStatus(E_BearingStatus BearingStatus) 
     {
         // ワープ
-        switch (m_bearingNum)
-        {
-            // 右（X+）
-            case 0:
-                transform.position = m_havePosition + new Vector3(1.0f, 0.0f, 0.0f);
-                break;
-            // 上（Z+）
-            case 1:
-                transform.position = m_havePosition + new Vector3(0.0f, 0.0f, 1.0f);
-                break;
-            // 下（Z-）
-            case 2:
-                transform.position = m_havePosition + new Vector3(0.0f, 0.0f, -1.0f);
-                break;
-            default:
-                break;
-        }
+        //switch (m_bearingNum)
+        //{
+        //    // 右（X+）
+        //    case 0:
+        //        transform.position = m_havePosition + new Vector3(1.0f, 0.0f, 0.0f);
+        //        break;
+        //    // 上（Z+）
+        //    case 1:
+        //        transform.position = m_havePosition + new Vector3(0.0f, 0.0f, 1.0f);
+        //        break;
+        //    // 下（Z-）
+        //    case 2:
+        //        transform.position = m_havePosition + new Vector3(0.0f, 0.0f, -1.0f);
+        //        break;
+        //    default:
+        //        break;
+        //}
 
         m_bearingStatus = BearingStatus; 
     }

@@ -47,6 +47,7 @@ public class GameSceneInputManager : MonoBehaviour
 
         if (m_bearing != null)
         {
+            Debug.Log("1");
             m_bearing.SetHavePosition(m_bear.transform.GetChild(0).position);
         }
     }
