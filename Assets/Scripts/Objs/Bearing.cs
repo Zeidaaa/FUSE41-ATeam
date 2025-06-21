@@ -2,11 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditorInternal.ReorderableList;
 
 public class Bearing : MonoBehaviour
 {
     private GameObject[] m_bearingDrawObjs;
     private BearingSpawner m_bearingSpawner;
+    private GameManager m_gameManager;
 
     private Vector3 m_newPos;
 
@@ -21,9 +23,14 @@ public class Bearing : MonoBehaviour
     }
 
     private E_BearingStatus m_bearingStatus;
+    public void SetBearingStatus(E_BearingStatus BearingStatus) { m_bearingStatus = BearingStatus; }
+    public E_BearingStatus GetBearingStatus() { return m_bearingStatus; }
 
     void Start()
     {
+        var gameManagerObj = GameObject.Find("GameManager");
+        m_gameManager = gameManagerObj.GetComponent<GameManager>();
+
         m_bearingDrawObjs = new GameObject[transform.childCount];
 
         for (int i = 0; i < transform.childCount; i++)
@@ -46,6 +53,8 @@ public class Bearing : MonoBehaviour
         
         // 現在の速度をスポナーから受け取る
         m_moveSpeed = m_bearingSpawner.GetCrrentBSpeed();
+
+        m_bearingStatus = E_BearingStatus.Default;
     }
 
     void Update()
@@ -100,15 +109,12 @@ public class Bearing : MonoBehaviour
         {
             var other =  collision.gameObject;
 
-            Debug.Log("消えた1");
-
             if (other.CompareTag("Ground"))
             {
                 // HPを減らす
-                Debug.Log("消えた2");
+                m_gameManager.SubPlayerHP();
                 Destroy(gameObject);
             }
         }
-        Debug.Log("消えた3");
     }
 }

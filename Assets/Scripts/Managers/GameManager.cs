@@ -17,6 +17,11 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private float m_changeSceneSec;
     
+    // プレイヤーのHP
+    private int m_playerHP;
+    public void ResetPlayerHP() { m_playerHP = 3; }
+    public int GetPlayerHP() { return m_playerHP; }
+    
     // スコア
     private int m_score;
     public void AddScore() { m_score++; }
@@ -39,6 +44,7 @@ public class GameManager : MonoBehaviour
         // Scene間を跨げるようDDOLに設定
         DontDestroyOnLoad(gameObject);
 
+        ResetPlayerHP();
         ResetScore();
         SetIsControl(true);
     }
@@ -76,6 +82,16 @@ public class GameManager : MonoBehaviour
 
             // スコアをリセット
             ResetScore();
+        }
+    }
+
+    public void SubPlayerHP() 
+    { 
+        m_playerHP--;
+        
+        if (m_playerHP <= 0)
+        {
+            StartCoroutine(OnChangeScene(GetResult()));
         }
     }
 }
