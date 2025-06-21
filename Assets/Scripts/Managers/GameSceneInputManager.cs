@@ -12,6 +12,9 @@ public class GameSceneInputManager : MonoBehaviour
     private Bearing m_bearing;
 
     [SerializeField]
+    private BearingHaveObj m_bearingHaveObj;
+
+    [SerializeField]
     private GameManager m_gameManager;
     private InputActions m_inputActions;
 
@@ -41,7 +44,11 @@ public class GameSceneInputManager : MonoBehaviour
         if (!m_gameManager.GetIsControl()) return;
         // 北を向く
         m_bear.SetDirection(E_Direction.Up);
-        Debug.Log($"上");
+
+        if (m_bearing != null)
+        {
+            m_bearing.SetHavePosition(m_bear.transform.GetChild(0).position);
+        }
     }
 
     private void OnEnterDown(InputAction.CallbackContext context)
@@ -49,7 +56,10 @@ public class GameSceneInputManager : MonoBehaviour
         if (!m_gameManager.GetIsControl()) return;
         // 南を向く
         m_bear.SetDirection(E_Direction.Down);
-        Debug.Log($"下");
+        if (m_bearing != null)
+        {
+            m_bearing.SetHavePosition(m_bear.transform.GetChild(0).position);
+        }
     }
 
     private void OnEnterRight(InputAction.CallbackContext context)
@@ -57,7 +67,10 @@ public class GameSceneInputManager : MonoBehaviour
         if (!m_gameManager.GetIsControl()) return;
         // 右を向く
         m_bear.SetDirection(E_Direction.Right);
-        Debug.Log($"右");
+        if (m_bearing != null)
+        {
+            m_bearing.SetHavePosition(m_bear.transform.GetChild(0).position);
+        }
     }
 
     private void OnEnterLeft(InputAction.CallbackContext context)
@@ -65,15 +78,25 @@ public class GameSceneInputManager : MonoBehaviour
         if (!m_gameManager.GetIsControl()) return;
         // 左を向く
         m_bear.SetDirection(E_Direction.Left);
-        Debug.Log($"左");
+
+        if (m_bearing != null)
+        {
+            m_bearing.SetHavePosition(m_bear.transform.GetChild(0).position);
+        }
     }
 
     private void OnEnterA(InputAction.CallbackContext context)
     {
         if (!m_gameManager.GetIsControl()) return;
         // bearingを持った
-        // GetBearing
-        Debug.Log($"A押した");
+        m_bearing = m_bearingHaveObj.GetBearing();
+        Debug.Log("Log1");
+        if (m_bearing != null)
+        {
+            Debug.Log("Log2");
+            m_bearing.SetBearingStatus(Bearing.E_BearingStatus.Have);
+            m_bearing.SetHavePosition(m_bear.transform.GetChild(0).position);
+        }
     }
 
     private void OnExitA(InputAction.CallbackContext context)
@@ -81,13 +104,20 @@ public class GameSceneInputManager : MonoBehaviour
         if (!m_gameManager.GetIsControl()) return;
         // bearingを持っていなければ行わない
         if (m_bearing == null) return;
-        // 
-        if (true)
+        
+        // 成功
+        // ベアリングの仕分け番号がくまの向きと一致していれば
+        if (m_bearing.GetBearingNum() == (int)m_bear.GetDirection())
         {
             m_gameManager.AddScore();
+            m_bearing.SetBearingStatus(Bearing.E_BearingStatus.Answer);
         }
-        // bearingを放した
-        // CheckBearingDirection
-        Debug.Log($"A放した");
+        // 失敗
+        else
+        {
+            m_gameManager.SubPlayerHP();
+            m_bearing.OnDead();
+            m_bearing = null;
+        }
     }
 }

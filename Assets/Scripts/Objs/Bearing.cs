@@ -14,6 +14,10 @@ public class Bearing : MonoBehaviour
 
     private float m_moveSpeed;
     private int m_bearingNum = 0;
+    public int GetBearingNum() {  return m_bearingNum; }
+
+    private Vector3 m_havePosition;
+    public void SetHavePosition(Vector3 HavePos) { m_havePosition = HavePos; }
 
     public enum E_BearingStatus
     {
@@ -23,7 +27,30 @@ public class Bearing : MonoBehaviour
     }
 
     private E_BearingStatus m_bearingStatus;
-    public void SetBearingStatus(E_BearingStatus BearingStatus) { m_bearingStatus = BearingStatus; }
+    public void SetBearingStatus(E_BearingStatus BearingStatus) 
+    {
+        // ワープ
+        switch (m_bearingNum)
+        {
+            // 右（X+）
+            case 0:
+                transform.position = m_havePosition + new Vector3(1.0f, 0.0f, 0.0f);
+                break;
+            // 上（Z+）
+            case 1:
+                transform.position = m_havePosition + new Vector3(0.0f, 0.0f, 1.0f);
+                break;
+            // 下（Z-）
+            case 2:
+                transform.position = m_havePosition + new Vector3(0.0f, 0.0f, -1.0f);
+                break;
+            default:
+                break;
+        }
+
+        m_bearingStatus = BearingStatus; 
+    }
+
     public E_BearingStatus GetBearingStatus() { return m_bearingStatus; }
 
     void Start()
@@ -70,6 +97,7 @@ public class Bearing : MonoBehaviour
                 break;
             // 自分では移動しない
             case E_BearingStatus.Have:
+                transform.position = m_havePosition;
                 break;
             // 自身のベアリング番号に合わせて動く
             case E_BearingStatus.Answer:
@@ -79,7 +107,6 @@ public class Bearing : MonoBehaviour
                 break;
         }
     }
-
     private void BearingNumMove()
     {
         m_newPos = transform.position;
@@ -103,16 +130,26 @@ public class Bearing : MonoBehaviour
         transform.position = m_newPos;
     }
 
+    public void OnDead()
+    {
+        Destroy(gameObject);
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision != null)
         {
-            var other =  collision.gameObject;
+            var other = collision.gameObject;
 
             if (other.CompareTag("Ground"))
             {
                 // HPを減らす
                 m_gameManager.SubPlayerHP();
+                Destroy(gameObject);
+            }
+
+            if (other.CompareTag("BearingDeleteObj"))
+            {
                 Destroy(gameObject);
             }
         }
