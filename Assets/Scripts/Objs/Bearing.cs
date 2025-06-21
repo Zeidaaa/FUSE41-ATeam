@@ -34,23 +34,23 @@ public class Bearing : MonoBehaviour
     public void SetBearingStatus(E_BearingStatus BearingStatus) 
     {
         // ワープ
-        //switch (m_bearingNum)
-        //{
-        //    // 右（X+）
-        //    case 0:
-        //        transform.position = m_havePosition + new Vector3(1.0f, 0.0f, 0.0f);
-        //        break;
-        //    // 上（Z+）
-        //    case 1:
-        //        transform.position = m_havePosition + new Vector3(0.0f, 0.0f, 1.0f);
-        //        break;
-        //    // 下（Z-）
-        //    case 2:
-        //        transform.position = m_havePosition + new Vector3(0.0f, 0.0f, -1.0f);
-        //        break;
-        //    default:
-        //        break;
-        //}
+        switch (m_bearingNum)
+        {
+            // 右（Z+）
+            case 0:
+                transform.position = m_havePosition + new Vector3(0.0f, 1.0f, 2.0f);
+                break;
+            // 上（X+）
+            case 2:
+                transform.position = m_havePosition + new Vector3(2.0f, 1.0f, 0.0f);
+                break;
+            // 下（Z-）
+            case 1:
+                transform.position = m_havePosition + new Vector3(0.0f, 1.0f, -2.0f);
+                break;
+            default:
+                break;
+        }
 
         m_bearingStatus = BearingStatus; 
     }
@@ -118,14 +118,14 @@ public class Bearing : MonoBehaviour
         {
             // 右（X+）
             case 0:
-                m_newPos.x += m_moveSpeed * Time.deltaTime;
-                break;
-            // 上（Z+）
-            case 1:
                 m_newPos.z += m_moveSpeed * Time.deltaTime;
                 break;
-            // 下（Z-）
+            // 上（Z+）
             case 2:
+                m_newPos.x += m_moveSpeed * Time.deltaTime;
+                break;
+            // 下（Z-）
+            case 1:
                 m_newPos.z -= m_moveSpeed * Time.deltaTime;
                 break;
             default:

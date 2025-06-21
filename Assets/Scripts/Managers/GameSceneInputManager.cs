@@ -112,6 +112,8 @@ public class GameSceneInputManager : MonoBehaviour
         {
             m_gameManager.AddScore();
             m_bearing.SetBearingStatus(Bearing.E_BearingStatus.Answer);
+            m_bearing = null;
+            m_bearingHaveObj.SetNull();
         }
         // Ž¸”s
         else

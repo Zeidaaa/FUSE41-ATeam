@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class BearingHaveObj : MonoBehaviour
@@ -7,6 +8,7 @@ public class BearingHaveObj : MonoBehaviour
     private Bearing m_bearing;
 
     public Bearing GetBearing() { return m_bearing; }
+    public void SetNull() {  m_bearing = null; }
 
     // Start is called before the first frame update
     void Start()
