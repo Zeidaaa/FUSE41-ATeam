@@ -8,8 +8,19 @@ public class Bearing : MonoBehaviour
     private GameObject[] m_bearingDrawObjs;
     private BearingSpawner m_bearingSpawner;
 
+    private Vector3 m_newPos;
+
     private float m_moveSpeed;
-    private int idx = 0;
+    private int m_bearingNum = 0;
+
+    public enum E_BearingStatus
+    {
+        Default,
+        Have,
+        Answer
+    }
+
+    private E_BearingStatus m_bearingStatus;
 
     void Start()
     {
@@ -25,18 +36,79 @@ public class Bearing : MonoBehaviour
         {
             bearObj.SetActive(false);
         }
+        // ランダムなベアリングを設定
+        m_bearingNum = UnityEngine.Random.Range(0, 3);
+        m_bearingDrawObjs[m_bearingNum].SetActive(true);
 
-        idx = UnityEngine.Random.Range(0, 3);
-        m_bearingDrawObjs[idx].SetActive(true);
-
+        // スポナーを取得
         var bearingSpawnerObj = GameObject.Find("BearingSpawner");
         m_bearingSpawner = bearingSpawnerObj.GetComponent<BearingSpawner>();
-
+        
+        // 現在の速度をスポナーから受け取る
         m_moveSpeed = m_bearingSpawner.GetCrrentBSpeed();
     }
 
     void Update()
     {
-        
+        // 移動
+        switch (m_bearingStatus)
+        {
+            // コンベアに合わせる
+            case E_BearingStatus.Default:
+                m_newPos = transform.position;
+                m_newPos.x += m_moveSpeed * Time.deltaTime;
+                transform.position = m_newPos;
+                break;
+            // 自分では移動しない
+            case E_BearingStatus.Have:
+                break;
+            // 自身のベアリング番号に合わせて動く
+            case E_BearingStatus.Answer:
+                BearingNumMove();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void BearingNumMove()
+    {
+        m_newPos = transform.position;
+        switch(m_bearingNum)
+        {
+            // 右（X+）
+            case 0:
+                m_newPos.x += m_moveSpeed * Time.deltaTime;
+                break;
+            // 上（Z+）
+            case 1:
+                m_newPos.z += m_moveSpeed * Time.deltaTime;
+                break;
+            // 下（Z-）
+            case 2:
+                m_newPos.z -= m_moveSpeed * Time.deltaTime;
+                break;
+            default:
+                break;
+        }
+        transform.position = m_newPos;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision != null)
+        {
+            var other =  collision.gameObject;
+
+            Debug.Log("消えた1");
+
+            if (other.CompareTag("Ground"))
+            {
+                // HPを減らす
+                Debug.Log("消えた2");
+                Destroy(gameObject);
+            }
+        }
+        Debug.Log("消えた3");
     }
 }

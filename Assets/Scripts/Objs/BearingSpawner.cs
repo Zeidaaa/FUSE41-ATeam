@@ -8,7 +8,7 @@ public class BearingSpawner : MonoBehaviour
     private GameManager m_gameManager;
 
     [SerializeField]
-    private GameObject m_bearingPre;
+    private GameObject m_bearingPrefab;
 
     private float m_spawnTime;
     private float m_spawnCounter;
@@ -16,7 +16,7 @@ public class BearingSpawner : MonoBehaviour
     [SerializeField]
     private float m_defaultBSpeed;
     private float m_crrentBSpeed;
-    public float GetCrrentBSpeed() {  return m_crrentBSpeed; }
+    public float GetCrrentBSpeed() { return m_crrentBSpeed; }
     
     [SerializeField]
     private S_BSpeedChangeScore[] m_bSpeedChangeScoreList;
@@ -40,7 +40,7 @@ public class BearingSpawner : MonoBehaviour
         {
             // ê∂ê¨
             Vector3 spawnerPos = GetComponent<Transform>().position;
-            Instantiate(m_bearingPre, spawnerPos, Quaternion.identity);
+            Instantiate(m_bearingPrefab, spawnerPos, Quaternion.identity);
             
             // TimerÉäÉZÉbÉg
             m_spawnTime = Random.Range(2, 7);
