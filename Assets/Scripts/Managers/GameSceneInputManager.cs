@@ -13,8 +13,7 @@ public class GameSceneInputManager : MonoBehaviour
 
     [SerializeField]
     private BearingHaveObj m_bearingHaveObj;
-
-    [SerializeField]
+    
     private GameManager m_gameManager;
     private InputActions m_inputActions;
 
@@ -30,6 +29,9 @@ public class GameSceneInputManager : MonoBehaviour
         m_inputActions.GameScene.A.canceled    += OnExitA;
 
         m_bearing = null;
+
+        var gameManagerObj = GameObject.Find("GameManager");
+        m_gameManager = gameManagerObj.GetComponent<GameManager>();
 
         m_inputActions.Enable();
     }

@@ -89,6 +89,7 @@ public class GameManager : MonoBehaviour
             // ゲームスタートUIを再生
 
             // スコアをリセット
+            ResetPlayerHP();
             ResetScore();
         }
     }
